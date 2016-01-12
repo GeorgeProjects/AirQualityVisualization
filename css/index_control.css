@@ -1,0 +1,31 @@
+#outer-div{
+	position:absolute;
+	top:50px;
+	left:5px;
+	right:5px;
+	bottom: 5px;
+}
+#city{
+	width:100%;
+	height:15%;
+	background-color: green;
+}
+#map{
+	height:70%;
+	background-color: yellow;
+}
+#nation-map{
+	background-color: lightblue;
+	height:100%;
+	left:10px;
+}
+#province-map{
+	background-color: blue;
+	height:100%;
+	left:10px;
+}
+#nation-year{
+	width:100%;
+	height:15%;
+	background-color: red;
+}
