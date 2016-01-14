@@ -75,6 +75,7 @@ text{
 #city-pie{
   width:8%;
   height:100%;
+  background-color: steelblue;
 }
 #map{
 	height:65%;
