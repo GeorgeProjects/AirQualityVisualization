@@ -1,8 +1,8 @@
   var aqi = function(){
     var width = $("#city").width();
     var height = $("#city").height();
-
-    var margin_aqi = {top: 2, right: 80, bottom: 60, left: 50},
+    var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
+    var margin_aqi = {top: 5, right: 70, bottom: 15, left: 50},
     width_aqi = width - margin_aqi.left - margin_aqi.right,
     height_aqi = height - margin_aqi.top - margin_aqi.bottom;
 
@@ -35,6 +35,8 @@
       .offset([-3, 0]) .html(function(d) {
         return "<strong>AQI:</strong> <span style='color:red'>" + d.AQI + "</span>";
       });
+
+    var legendNum = 7;
 
     svg_aqi.call(tip_aqi);
 
@@ -83,19 +85,29 @@
       svg_aqi.selectAll(".bar")
           .attr("fill", function(d) { return color_aqi(d.airquality); });
 
+      var legendHeight = Math.round(height_aqi/legendNum);
+      var moveHeight = legendHeight + 1;
+
       var legend_aqi = svg_aqi.selectAll(".legend")
         .data(color_aqi.domain().slice().reverse())
-      .enter().append("g")
+        .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 12 + ")"; });
+        .attr("transform", function(d, i) { return "translate(0," + i * moveHeight + ")"; });
 
       legend_aqi.append("rect")
-        .attr("x", width_aqi + 20)
-        .attr("width", 10)
-        .attr("height", 10)
+        .attr("x", width_aqi + 10)
+        .attr("width", legendHeight)
+        .attr("height", legendHeight)
         .style("fill", color_aqi)
         .on("mouseover",function(d) { filter_aqi = d; filtering_aqi();})
         .on("mouseout",clear_aqi);
+
+      legend_aqi.append("text")
+        .attr("x", width_aqi + 24)
+        .attr("y", legendHeight/2)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .text(function(d,i) { return legendText[i]; });
     }
     function showfirst_aqi()
     {
@@ -103,19 +115,25 @@
       color_aqi = d3.scale.category10();
       svg_aqi.selectAll(".bar")
           .attr("fill", function(d) { return color_aqi(d.mainpollution); });
+
+      var legendHeight = Math.round(height_aqi/legendNum);
+      var moveHeight = legendHeight + 1;
+
       var legend_aqi = svg_aqi.selectAll(".legend")
         .data(color_aqi.domain().slice().reverse())
-      .enter().append("g")
+        .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 10 + ")"; });
+        .attr("transform", function(d, i) { return "translate(0," + i * moveHeight + ")"; });
 
       legend_aqi.append("rect")
           .attr("x", width_aqi + 20)
-          .attr("width", 8)
-          .attr("height", 8)
+          .attr("width", legendHeight)
+          .attr("height", legendHeight)
           .style("fill", color_aqi)
           .on("mouseover",function(d) { filter_aqi = d; filtering_aqi();})
           .on("mouseout",clear_aqi);
+
+      console.log("legend_aqi",legend_aqi);
     }
   }
 

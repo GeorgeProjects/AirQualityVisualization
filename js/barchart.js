@@ -1,15 +1,16 @@
 var barchart = function(){
   var width = $("#nation-year").width();
   var height = $("#nation-year").height();
+  var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
 
-  var margin_bar = {top: 20, right: 200, bottom: 60, left: 50},
+  var margin_bar = {top: 5, right: 70, bottom: 15, left: 50},
     width_bar = width - margin_bar.left - margin_bar.right,
     height_bar = height - margin_bar.top - margin_bar.bottom;
 
   var svg_b = d3.select("#nation-year").append("svg")
       .attr("width", width_bar + margin_bar.left + margin_bar.right)
       .attr("height", height_bar + margin_bar.top + margin_bar.bottom)
-    .append("g")
+      .append("g")
       .attr("transform", "translate(" + margin_bar.left + "," + margin_bar.top + ")");
 
   var x_bar = d3.scale.ordinal()
@@ -40,10 +41,11 @@ var barchart = function(){
   });
 
   var bar_choice = "data/polluteQuaStat.csv";
+  var legendNum = 7;
   var color = d3.scale.category20();
-  draw_bar();
+  draw_bar(bar_choice, legendNum);
 
-  function draw_bar()
+  function draw_bar(bar_choice,legendNum)
   {
     svg_b.selectAll("*").remove();
 
@@ -92,36 +94,39 @@ var barchart = function(){
 
       Date.selectAll("rect")
           .data(function(d) { return d.ages; })
-        .enter().append("rect")
+          .enter().append("rect")
           .attr("width", width_bar/count1)
           .attr("y", function(d) { return y_bar(d.y1); })
           .attr("height", function(d) { return y_bar(d.y0) - y_bar(d.y1); })
           .style("fill", function(d) { return color(d.name); });
 
+      var height = Math.round(height_bar/legendNum);
+      var moveLength = height + 1;
+      console.log("moveLength",moveLength);
+
       var legend = svg_b.selectAll(".legend")
           .data(color.domain().slice().reverse())
-        .enter().append("g")
+          .enter().append("g")
           .attr("class", "legend")
-          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+          .attr("transform", function(d, i) { return "translate(0," + i * moveLength + ")"; });
 
       legend.append("rect")
-          .attr("x", width_bar + 110)
-          .attr("width", 18)
-          .attr("height", 18)
+          .attr("x", width_bar + 10)
+          .attr("width", height)
+          .attr("height", height)
           .style("fill", color)
           .on("mouseover",function(d) { filter = d; filtering();})
           .on("mouseout",clear);
 
       legend.append("text")
-          .attr("x", width_bar + 105)
+          .attr("x", width_bar + 28)
           .attr("y", 9)
           .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .text(function(d) { return d; });
+          .style("text-anchor", "start")
+          .text(function(d,i) { return legendText[i]; });
 
       function filtering()
       {
-          console.log("hhhhhhhhhhhh");
           Date.selectAll("rect")
           .style("fill-opacity", function(d) { 
               if(filter == d.name)
