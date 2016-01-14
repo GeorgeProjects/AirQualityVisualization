@@ -1,4 +1,5 @@
   var aqi = function(){
+    var aqiView = new Object();
     var width = $("#city-his").width();
     var height = $("#city-his").height();
     var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
@@ -37,7 +38,11 @@
       });
 
     var legendNum = 7;
-
+    //------------------------------------------
+    aqiView.OMListen = function(message,data){
+      
+    }
+    //------------------------------------------
     svg_aqi.call(tip_aqi);
 
     d3.tsv("data/bj.tsv", type, function(error, data) {

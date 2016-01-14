@@ -1,4 +1,7 @@
+var globalTime = 1;
+var timeControl;
 var barchart = function(){
+  var barChartView = new Object();
   var width = $("#nation-year-his").width();
   var height = $("#nation-year-his").height();
   var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
@@ -43,6 +46,24 @@ var barchart = function(){
   var bar_choice = "data/polluteQuaStat.csv";
   var legendNum = 7;
   var color = d3.scale.category20();
+
+  //--------------------------------------------
+  barChartView.OMListen = function(message,data){
+
+  }
+  //--------------------------------------------
+
+  $("#map-play").on("click", function(){
+    var state = $("#map-play-image").attr("class");
+    if(state == "glyphicon glyphicon-play"){
+      timeControl = self.setInterval("clock()",50);
+      $("#map-play-image").attr("class","glyphicon glyphicon-pause");
+    }else{
+      timeControl = window.clearInterval(timeControl);
+      $("#map-play-image").attr("class","glyphicon glyphicon-play");
+    }
+  })
+
   draw_bar(bar_choice, legendNum);
 
   function draw_bar(bar_choice,legendNum)
@@ -85,16 +106,25 @@ var barchart = function(){
 
       var Date = svg_b.selectAll(".Date")
           .data(data)
-        .enter().append("g")
-          .attr("class", "Date")
+          .enter().append("g")
+          .attr("id", function(d,i){
+            return "Date" + d.Date;
+          })
+          .attr("class","Date")
           .attr("transform", function(d) { return "translate(" + x_bar(d.Time) + ",0)"; })
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide)
-          .on('click',function(d) { console.log(d.Date);});
+          .on('click',function(d) { 
+              globalTime = + d.Date;
+              drawHighlightRect(globalTime);
+          });
+
+      d3.select("#Date1").classed("focus-highlight",true);
 
       Date.selectAll("rect")
           .data(function(d) { return d.ages; })
-          .enter().append("rect")
+          .enter()
+          .append("rect")
           .attr("width", width_bar/count1)
           .attr("y", function(d) { return y_bar(d.y1); })
           .attr("height", function(d) { return y_bar(d.y0) - y_bar(d.y1); })
@@ -144,12 +174,19 @@ var barchart = function(){
     });
   }
 }
-
 function showfirst()
 {
 	bar_choice = "data/polluteObj.csv";
 	color = d3.scale.category10();
 	draw_bar();
 }
-
+function clock(){
+  //回调函数
+  globalTime = (globalTime + 1)%365;
+  drawHighlightRect(globalTime);
+}
+function drawHighlightRect(time){
+  d3.selectAll(".Date").classed("focus-highlight",false);
+  d3.select("#Date" + time).classed("focus-highlight",true)
+}
  

@@ -37,11 +37,13 @@
 				<button id="level_aqi">空气污染级别</button>
 				<button id="first_aqi">首要污染物</button>-->
 	    	</div>
-	    	<div id = "map" class = "row">
-	    		<div id = "nation-map" class = "col-sm-6">
-	    		</div>
-	    		<div id = "province-map" class = "col-sm-6">
-	    		</div>
+	    	<div id = "map-all">
+		    	<div id = "map" class = "row">
+		    		<div id = "nation-map" class = "col-sm-6">
+		    		</div>
+		    		<div id = "province-map" class = "col-sm-6">
+		    		</div>
+		    	</div>
 	    	</div>
 	    	<div id = "nation-year" class = "row">
 	    		<div id = "nation-year-his" class = "col-sm-6"></div>
@@ -58,6 +60,9 @@
 	    			<sapn class = "sort-btn btn btn-default btn-xs" id = "city-pollute">
 	    				<span class = "glyphicon glyphicon-align-justify"></span>
 	    			</sapn>
+	    			<sapn class = "sort-btn btn btn-default btn-xs" id = "map-play">
+	    				<span class = "glyphicon glyphicon-play" id = "map-play-image"></span>
+	    			</sapn>
 	    		</div>
 	    		<!--<h5><b>全国重点城市全年空气质量情况:</b>
 	    	    <button id="level">空气污染级别</button>
@@ -69,6 +74,7 @@
 		<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="lib/d3.tip.js"></script>
 		<script type="text/javascript" src="lib/queue.min.js"></script>
+		<script type="text/javascript" src="js/ObserverManager.js"></script>
 		<script type="text/javascript" src="js/aqi.js"></script>
 		<script type="text/javascript" src="js/barchart.js"></script>
 		<script type="text/javascript" src="js/nation_map.js"></script>

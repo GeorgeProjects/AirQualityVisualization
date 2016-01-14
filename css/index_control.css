@@ -19,7 +19,9 @@ text{
   stroke: #000;
   shape-rendering: crispEdges;
 }
-
+g[class~=focus-highlight]{
+  stroke: #000;
+}
 .Date:hover {
   stroke: #000;
 }
@@ -77,8 +79,14 @@ text{
   height:100%;
   background-color: steelblue;
 }
-#map{
+#map-all{
 	height:65%;
+  width:100%;
+  pdiing-bottom:2px;
+}
+#map{
+  height:100%;
+  width:100%;
 }
 #nation-map{
 	height:100%;

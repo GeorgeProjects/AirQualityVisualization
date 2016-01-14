@@ -6,6 +6,7 @@
 //--------------------------------------------
 
 var dataCenter = new Object();
+
 aqi();
 barchart();
 nationMap();
