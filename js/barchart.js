@@ -1,13 +1,13 @@
 var barchart = function(){
-  var width = $("#nation-year").width();
-  var height = $("#nation-year").height();
+  var width = $("#nation-year-his").width();
+  var height = $("#nation-year-his").height();
   var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
 
   var margin_bar = {top: 5, right: 70, bottom: 15, left: 50},
     width_bar = width - margin_bar.left - margin_bar.right,
     height_bar = height - margin_bar.top - margin_bar.bottom;
 
-  var svg_b = d3.select("#nation-year").append("svg")
+  var svg_b = d3.select("#nation-year-his").append("svg")
       .attr("width", width_bar + margin_bar.left + margin_bar.right)
       .attr("height", height_bar + margin_bar.top + margin_bar.bottom)
       .append("g")

@@ -1,3 +1,11 @@
+.col-sm-6{
+  padding-left: 0;
+  padding-right: 0;
+}
+.row{
+  padding-left: 0;
+  padding-right: 0;
+}
 .axis path,
 .axis line {
   fill: none;
@@ -56,6 +64,18 @@ text{
 	width:100%;
 	height:15%;
 }
+#city-his{
+  width:90%;
+  height:100%;
+}
+#city-control{
+  width:2%;
+  height:100%;
+}
+#city-pie{
+  width:8%;
+  height:100%;
+}
 #map{
 	height:65%;
 }
@@ -70,6 +90,14 @@ text{
 #nation-year{
 	width:100%;
 	height:20%;
+}
+#nation-year-his{
+  width:98%;
+  height:100%;
+}
+#nation-year-control{
+  width:2%;
+  height:100%;
 }
 .states {
   fill: #CDE;

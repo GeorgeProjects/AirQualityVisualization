@@ -1,12 +1,12 @@
   var aqi = function(){
-    var width = $("#city").width();
-    var height = $("#city").height();
+    var width = $("#city-his").width();
+    var height = $("#city-his").height();
     var legendText = ["重度污染","中重度污染","中度污染","轻度污染","轻微污染","良","优"];
     var margin_aqi = {top: 5, right: 70, bottom: 15, left: 50},
     width_aqi = width - margin_aqi.left - margin_aqi.right,
     height_aqi = height - margin_aqi.top - margin_aqi.bottom;
 
-    var svg_aqi = d3.select("#city").append("svg")
+    var svg_aqi = d3.select("#city-his").append("svg")
       .attr("width", width_aqi + margin_aqi.left + margin_aqi.right)
       .attr("height", height_aqi + margin_aqi.top + margin_aqi.bottom)
       .append("g")
