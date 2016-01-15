@@ -71,7 +71,12 @@ var nationMap = function(){
 	        	if(d.id == "shan_xi_2"){
 	        		proName = "shan1xi";
 	        	}
-	        	ObserverManager.post("focus-province",proName)
+	        	if(d.id == "ao_men"){
+	        		proName = "macau";
+	        	}
+	        	if((d.id != "xiang_gang") && (d.id != "ao_men")){
+	        		ObserverManager.post("focus-province",proName);
+	        	}
 	        })
 	        .append("path")
 	        .attr("class", function(d) { return "q" + rateById.get(d.id); })

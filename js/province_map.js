@@ -10,7 +10,6 @@ var provinceMap = function(){
 
 	var rateById = d3.map();
 
-
 	var margin_province = {top: 0, right: 5, bottom: 5, left: 5},
     	width_province = width - margin_province.left - margin_province.right,
     	height_province = height - margin_province.top - margin_province.bottom;
@@ -35,21 +34,22 @@ var provinceMap = function(){
 		}
 	}
 	//---------------------------------------------------
-	drawProvince("liaoning");
+	drawProvince("shandong");
 
 	function drawProvince(province){
+		mapScale = dict[province];
 		var path = "data/city_json/" + province + ".json";
 		queue()
-		.defer(d3.json, path)
-		.defer(d3.json, path)
-		.defer(d3.csv, path, function(d) {rateById.set(d.id, +d.value);})
-		.await(makeMap);
+			.defer(d3.json, path)
+			.defer(d3.json, path)
+			.defer(d3.csv, path, function(d) {rateById.set(d.id, +d.value);})
+			.await(makeMap);
 	}
 	function makeMap(error, counties, states) {
 		console.log("states",states);
 
 		var center = d3.geo.centroid(states)
-		var proj = d3.geo.mercator().center(center).scale(800).translate([width/2, height/2]);
+		var proj = d3.geo.mercator().center(center).scale(mapScale).translate([width/2, height/2]);
 		var path = d3.geo.path().projection(proj);
 
 		svg.selectAll("*").remove();
