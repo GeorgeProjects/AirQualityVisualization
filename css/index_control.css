@@ -91,10 +91,25 @@ g[class~=focus-highlight]{
 #nation-map{
 	height:100%;
 	left:10px;
+  width:50%;
+}
+#all-his{
+  height:100%;
+  width:10%;
+}
+#all-his-label{
+  text-align: center;
+  width:100%;
+  height:5%;
+}
+#all-his-draw{
+  width:100%;
+  height:95%;
 }
 #province-map{
 	height:100%;
 	left:10px;
+  width:40%;
 }
 #nation-year{
 	width:100%;
@@ -116,4 +131,12 @@ g[class~=focus-highlight]{
 }
 g[class~=focus-highlight]{
   fill:steelblue;
+}
+rect[class~=highlight]{
+  fill:steelblue;
+}
+.brush .extent{
+  stoke:#fff;
+  fill-opacity:.125;
+  shape-rendering:crispEdges;
 }

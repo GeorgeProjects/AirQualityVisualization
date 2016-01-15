@@ -184,6 +184,9 @@ function showfirst()
 function clock(){
   //回调函数
   globalTime = (globalTime + 1)%365;
+  if(globalTime == 0){
+    globalTime = 1;
+  }
   ObserverManager.post("clock",globalTime);
   drawHighlightRect(globalTime);
 }

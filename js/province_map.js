@@ -10,7 +10,7 @@ var provinceMap = function(){
 
 	var rateById = d3.map();
 
-	var margin_province = {top: 0, right: 5, bottom: 5, left: 5},
+	var margin_province = {top: 0, right: 5, bottom: 5, left: 0},
     	width_province = width - margin_province.left - margin_province.right,
     	height_province = height - margin_province.top - margin_province.bottom;
 

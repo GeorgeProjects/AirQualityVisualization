@@ -29,7 +29,7 @@ var dict = {
 	"liaoning": 3000,
 	"neimenggu": 800,
 	"ningxia": 4000,
-	"qinghai": 2000,
+	"qinghai": 1500,
 	"shan1xi": 2800,
 	"shan3xi": 2100,
 	"shandong": 3000,
@@ -39,7 +39,7 @@ var dict = {
 	"tianjin": 8000,
 	"xianggang": 80000,
 	"xinjiang": 1000,
-	"xizang": 1500,
+	"xizang": 1200,
 	"yunnan": 2000,
 	"zhejiang": 3000
 };
@@ -53,3 +53,4 @@ aqi();
 barchart();
 nationMap();
 provinceMap();
+allHis();
