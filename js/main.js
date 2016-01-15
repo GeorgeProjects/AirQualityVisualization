@@ -43,6 +43,12 @@ var dict = {
 	"yunnan": 2000,
 	"zhejiang": 3000
 };
+var Worst = d3.rgb(215,25,28);//红色
+var Best = d3.rgb(26,150,65);//绿色
+var compute = d3.interpolate(Best,Worst);
+var colorLinear = d3.scale.linear()
+			.range([0,1])
+			.domain([37,136]);
 aqi();
 barchart();
 nationMap();

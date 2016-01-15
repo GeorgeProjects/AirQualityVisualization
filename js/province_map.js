@@ -19,8 +19,6 @@ var provinceMap = function(){
 
 	var scale = (width<height?width:height) + 80;
 
-	console.log("width:"+width+"height:"+height+"scale"+scale);
-
 	var svg = d3.select("#province-map").append("svg")
 	    .attr("width", width)
 	    .attr("height", height)
@@ -31,6 +29,9 @@ var provinceMap = function(){
 	provinceMapView.OMListen = function(message,data){
 		if(message == "focus-province"){
 			drawProvince(data);
+		}
+		if(message == "clock"){
+			encodeHis(data);
 		}
 	}
 	//---------------------------------------------------
@@ -45,9 +46,34 @@ var provinceMap = function(){
 			.defer(d3.csv, path, function(d) {rateById.set(d.id, +d.value);})
 			.await(makeMap);
 	}
+	function encodeHis(dayNum){
+		var folderPath = "data/data_day_csv/";
+		var fileName = pad(dayNum,5);
+		var filePath = folderPath + fileName + ".csv";
+		d3.csv(filePath,function(data){
+			for(var i = 0;i < data.length;i++){
+				var cityName = data[i].index;
+				var pollution = +data[i].date;
+				svg.select("#" + cityName)
+					.attr("fill",function(d){
+						//return compute(colorLinear(pollution))
+						return colorEncoded(pollution);
+					});
+				var name = svg.select("#" + cityName);
+				/*.append("rect")
+					.attr("id","hhhhh")
+					.attr("width",5)
+					.attr("height",10)
+					.attr("fill","blue")*/
+			}
+		})
+	}
+	function pad(num, size) {
+	    var s = num+"";
+	    while (s.length < size) s = "0" + s;
+	    return s;
+	}
 	function makeMap(error, counties, states) {
-		console.log("states",states);
-
 		var center = d3.geo.centroid(states)
 		var proj = d3.geo.mercator().center(center).scale(mapScale).translate([width/2, height/2]);
 		var path = d3.geo.path().projection(proj);
@@ -60,7 +86,12 @@ var provinceMap = function(){
 		    .data(states.features)
 		    .enter()
 		    .append("g")
-			.attr("class",function(d){return "q" + rateById.get(d.id);})
+			.attr("class",function(d){return "city "+ "q" + rateById.get(d.id);})
+			.attr("id",function(d){
+				var cityName = d.properties.name;
+				cityName = cityName.replace("市","");
+				return cityName;
+			})
 			.on("mouseover", function(d) {
 	           	d3.select(this).classed("focus-highlight",true);
 		        var m = d3.mouse(d3.select("#province-map").node());
@@ -73,8 +104,13 @@ var provinceMap = function(){
 		         tooltip.style("display", "none");
 	           	 d3.select(this).classed("focus-highlight",false);
 		    })
+		    .on("click",function(d){
+		    	var cityName = d3.select(this).attr("id");
+		    })
 		    .append("path")
 		    .attr("class", function(d) { return "q" + rateById.get(d.id); })
 		    .attr("d", path);
+
+		 	encodeHis(2);
 		}
 }

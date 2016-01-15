@@ -56,7 +56,7 @@ var barchart = function(){
   $("#map-play").on("click", function(){
     var state = $("#map-play-image").attr("class");
     if(state == "glyphicon glyphicon-play"){
-      timeControl = self.setInterval("clock()",50);
+      timeControl = self.setInterval("clock()",200);
       $("#map-play-image").attr("class","glyphicon glyphicon-pause");
     }else{
       timeControl = window.clearInterval(timeControl);
@@ -117,6 +117,7 @@ var barchart = function(){
           .on('click',function(d) { 
               globalTime = + d.Date;
               drawHighlightRect(globalTime);
+              ObserverManager.post("clock",globalTime);
           });
 
       d3.select("#Date1").classed("focus-highlight",true);
@@ -183,6 +184,7 @@ function showfirst()
 function clock(){
   //回调函数
   globalTime = (globalTime + 1)%365;
+  ObserverManager.post("clock",globalTime);
   drawHighlightRect(globalTime);
 }
 function drawHighlightRect(time){
