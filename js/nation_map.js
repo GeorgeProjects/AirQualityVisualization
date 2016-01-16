@@ -18,7 +18,6 @@ var nationMap = function(){
 	var height = $("#nation-map").height();
 
 	var scale = (width<height?width:height) + 80;
-
 	
 	var svg = d3.select("#nation-map").append("svg")
 	    .attr("width", width)
@@ -31,6 +30,9 @@ var nationMap = function(){
     	if(message == "clock"){
     		encodeColor(data);
     	}
+    	if(message == "select-array"){
+			hisHighLight(data);
+		}
 	}
 	//--------------------------------------------------------
 	queue()
@@ -39,7 +41,13 @@ var nationMap = function(){
 	    .defer(d3.csv, "data/china_cities.csv", function(d) {rateById.set(d.id, +d.value);})
 	    .await(makeMap);
 
-
+	function hisHighLight(data){
+		svg.selectAll(".pro").classed("his-highlight",false);
+		for(var i = 0; i < data.length;i++){
+			var proName = cityDict[data[i]];
+			svg.select("#" + proName).classed("his-highlight",true);
+		}
+	}
 	function encodeColor(dayNum){
 		fileName = pad(dayNum,5);
 		filePath = "data/data_pro_csv/" + fileName + ".csv";
@@ -73,7 +81,7 @@ var nationMap = function(){
 	        .data(states.features)
 	        .enter()
 	        .append("g")
-	        .attr("class",function(d){return "q" + rateById.get(d.id);})
+	        .attr("class",function(d){return "pro q" + rateById.get(d.id);})
 	        .attr("id",function(d){
 	        	var proName = d.id;
 	        	if(proName == "shan_xi_1"){
@@ -102,25 +110,36 @@ var nationMap = function(){
 	           	d3.select(this).classed("focus-highlight",false);
 	        })
 	        .on("click",function(d,i){
-	        	var proName = (d.id).replace("_","");
-	        	proName = proName.replace("_","");
-	        	if(d.id == "shan_xi_1"){
-	        		proName = "shan3xi";
-	        	}
-	        	if(d.id == "shan_xi_2"){
-	        		proName = "shan1xi";
-	        	}
-	        	if(d.id == "ao_men"){
-	        		proName = "macau";
-	        	}
-	        	if((d.id != "xiang_gang") && (d.id != "ao_men")){
-	        		ObserverManager.post("focus-province",proName);
-	        	}
+	        	var className = d3.select(this).attr("class");
+	        	if(className.search("his-highlight") == -1){
+	        		d3.selectAll(".pro").classed("his-highlight",false);
+	        		d3.select(this).classed("his-highlight",true);
+	        		var proName = (d.id).replace("_","");
+		        	proName = proName.replace("_","");
+		        	if(d.id == "shan_xi_1"){
+		        		proName = "shan3xi";
+		        	}
+		        	if(d.id == "shan_xi_2"){
+		        		proName = "shan1xi";
+		        	}
+		        	if(d.id == "ao_men"){
+		        		proName = "macau";
+		        	}
+		        	if((d.id != "xiang_gang") && (d.id != "ao_men")){
+		        		ObserverManager.post("focus-province",proName);
+		        	}
+	        	}else{
+	        		d3.select(this).classed("his-highlight",false);
+	        		ObserverManager.post("focus-province","shandong");
+	        		d3.select("#shandong").classed("his-highlight",true);
+	        	}	
 	        })
 	        .append("path")
 	        .attr("class", function(d) { return "q" + rateById.get(d.id); })
 	        .attr("d", path);
 
+	    d3.select("#shandong").classed("his-highlight",true);
+	    ObserverManager.post("focus-province","shandong");
 	   	encodeColor(1);
 	}
 }

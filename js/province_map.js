@@ -33,10 +33,19 @@ var provinceMap = function(){
 		if(message == "clock"){
 			encodeHis(data);
 		}
+		if(message == "select-array"){
+			hisHighlight(data);
+		}
 	}
 	//---------------------------------------------------
 	drawProvince("shandong");
 
+	function hisHighlight(data){
+		svg.selectAll(".city").classed("his-highlight",false);
+		for(var i = 0;i<data.length;i++){
+			svg.select("#" + data[i]).classed("his-highlight",true);
+		}
+	}
 	function drawProvince(province){
 		mapScale = dict[province];
 		var path = "data/city_json/" + province + ".json";

@@ -132,6 +132,16 @@ g[class~=focus-highlight]{
 g[class~=focus-highlight]{
   fill:steelblue;
 }
+g[class~=his-highlight]{
+  stroke:steelblue;
+  animation-name: highlight-animation;
+  animation-duration:1s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+rect[class~=his-highlight]{
+  fill:steelblue;
+}
 rect[class~=highlight]{
   fill:steelblue;
 }
@@ -139,4 +149,11 @@ rect[class~=highlight]{
   stoke:#fff;
   fill-opacity:.125;
   shape-rendering:crispEdges;
+}
+@keyframes highlight-animation {
+    0% {}
+    50% {
+      stroke-width: 5px;
+    }
+    100% {}
 }

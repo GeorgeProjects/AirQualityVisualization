@@ -22,8 +22,9 @@ var allHis = function(){
     var nowData, nowSortData;
 
     allHisView.OMListen = function(message,data){
+  		d3.selectAll(".his").classed("his-highlight",false);
 		if(message == "focus-province"){
-			drawDayHis(data);
+			svg.selectAll("." + data).classed("his-highlight",true);
 		}
 		if(message == "clock"){
 			drawDayHis(data);
@@ -35,11 +36,12 @@ var allHis = function(){
     	draw(nowData);
     });
     $("#his-sort").on("click",function(){
-    	nowSortData.sort(function(a,b){
-    		var dateA = +a.date;
-    		var dateB = +b.date;
-    		return dateA > dateB;
+    	nowSortData = nowSortData.sort(function(a,b){
+    		var dateA = parseInt(a.date);
+    		var dateB = parseInt(b.date);
+    		return dateA - dateB;
     	})
+    	console.log("sort_data",nowSortData);
     	draw(nowSortData);
     });
 	function drawDayHis(dayNum){
@@ -50,11 +52,11 @@ var allHis = function(){
 			draw(data);
 			nowData = data;
 		})
-		d3.csv(file,function(data){
-			nowSortData = data.sort(function(a,b){
-				var dateA = +a.date;
-				var dateB = +b.date;
-				return dateA > dateB;
+		d3.csv(file,function(sort_data){
+			nowSortData = sort_data.sort(function(a,b){
+				var dateA = parseInt(a.date);
+				var dateB = parseInt(b.date);
+				return dateA - dateB;
 			});
 		})
 	}
@@ -118,6 +120,8 @@ var allHis = function(){
 	          .attr("transform", "translate("+ left +"," + 0 + ")")
 	          .call(yAxis);
 
+	        console.log("data",data);
+
 	        svg.selectAll(".his")
 	        	.data(data)
 	        	.enter()
@@ -126,7 +130,8 @@ var allHis = function(){
 	        		return d.index;
 	        	})
 	        	.attr("class",function(d,i){
-	        		return "his his" + i;
+	        		var name = cityDict[d.index];
+	        		return  name + " his his" + i;
 	        	})
 	        	.attr("x",(left + 1))
 	        	.attr("y",function(d){
@@ -158,10 +163,14 @@ var allHis = function(){
 		var begin = begin_end[0];
 		var end = begin_end[1];
 		beginIndex = Math.round(begin/sumHisHeight);
-		endIndex = Math.round(end/sumHisHeight);
+		endIndex = Math.round(end/sumHisHeight)>120?120:Math.round(end/sumHisHeight);
 		svg.selectAll(".his").classed("highlight",false);
+		var selectArray = new Array();
 		for(var i = beginIndex;i < endIndex;i++){
 			svg.select(".his" + i).classed("highlight",true);
+			var id = svg.select(".his" + i).attr("id")
+			selectArray.push(id);
 		}
+        ObserverManager.post("select-array",selectArray);
 	}
 }
