@@ -56,6 +56,11 @@ var compute = d3.interpolate(Best,Worst);
 var colorLinear = d3.scale.linear()
 			.range([0,1])
 			.domain([37,136]);
+
+String.prototype.trim=function() {
+
+    return this.replace(/(^\s*)|(\s*$)/g,'');
+}
 aqi();
 barchart();
 nationMap();

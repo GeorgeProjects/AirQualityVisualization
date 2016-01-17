@@ -28,6 +28,18 @@ g[class~=focus-highlight]{
 .bar:hover {
 	stroke:#000;
 }
+.selecting {
+  fill-opacity: .2;
+}
+
+.selected {
+  fill-opacity: 1;
+}
+
+.clear-button {
+  font: 10px sans-serif;
+  cursor: pointer;
+}
 .d3-tip {
   line-height: 1;
   font-weight: bold;

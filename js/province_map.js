@@ -115,6 +115,7 @@ var provinceMap = function(){
 		    })
 		    .on("click",function(d){
 		    	var cityName = d3.select(this).attr("id");
+		    	console.log(cityName);
 		    })
 		    .append("path")
 		    .attr("class", function(d) { return "q" + rateById.get(d.id); })
